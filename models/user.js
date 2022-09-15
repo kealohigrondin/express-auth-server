@@ -31,8 +31,6 @@ userSchema.pre("save", function (next) {
 //checks to see if candidatePassword and our stored PW are the same
 userSchema.methods.comparePassword = function (candidatePassword, callback) {
   bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
-    console.log("candidate pw:", candidatePassword);
-    console.log("stored pw:", this.password);
     //callback is the next function (the one listed in passport.js:26-30)
     // that has isMatch as a function parameter
     if (err) return callback(err);
