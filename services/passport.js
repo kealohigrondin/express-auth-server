@@ -8,18 +8,18 @@ const LocalStrategy = require("passport-local");
 //Create local strategy
 //purpose of localstrategy is to verify email/pw then spit out a token to authorize
 // future requests after logging in
-//the process of creating a token on login is what goes on behind the scenes to actually
+//the process of creating a token on signin is what goes on behind the scenes to actually
 // log someone in
 const localOptions = { usernameField: "email" };
 //usernameField is assigned the value of the inputted email
-const localLogin = new LocalStrategy(
+const localSignIn = new LocalStrategy(
   localOptions,
   (submittedEmail, submittedPassword, done) => {
     //verify the user/pw, call done with the user
     //if it's the right user/pw
     //otherwise call done with false
     User.findOne({ email: submittedEmail }, function (err, user) {
-      console.log("from localLogin");
+      console.log("from localSignIn");
       if (err) return done(err); //error
       if (!user) return done(null, false); //email doesn't exist in db
 
@@ -29,7 +29,7 @@ const localLogin = new LocalStrategy(
         if (!isMatch) return done(null, false);
         return done(null, user);
         //assigns user to req.user so we can see it in the following
-        // function call (authentication.js.login in this case)
+        // function call (authentication.js.signIn in this case)
       });
     });
   }
@@ -44,7 +44,7 @@ const jwtOptions = {
 };
 
 //Create JWT strategy
-const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
+const jwtSignIn = new JwtStrategy(jwtOptions, (payload, done) => {
   //payload is decoded jwt token {sub, iat} that we set in signup
   //done is a callback
 
@@ -60,5 +60,5 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
 });
 
 //Tell passport to use the strategy
-passport.use(localLogin);
-passport.use(jwtLogin);
+passport.use(localSignIn);
+passport.use(jwtSignIn);

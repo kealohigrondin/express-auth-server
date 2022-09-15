@@ -44,9 +44,9 @@ exports.signup = function (req, res, next) {
   });
 };
 
-exports.login = function (req, res, next) {
+exports.signIn = function (req, res, next) {
   //email and pw are already authenticated (via the local strategy in passport.js)
   //need to spit out a token
-  console.log("from authentication.login");
+  console.log("from authentication.signIn");
   res.send({ token: tokenForUser(req.user) });
 };
