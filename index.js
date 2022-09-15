@@ -7,8 +7,12 @@ const app = express();
 const router = require("./router");
 const mongoose = require("mongoose");
 const config = require("./config");
-//DB setup
+const cors = require("cors");
 
+//cors setup
+const corsOptions = { origin: "http://localhost:3000" };
+
+//DB setup
 mongoose
   .connect(config.mongodbconnectionstring)
   .then(() => {
@@ -25,6 +29,7 @@ mongoose
 //all incoming requests get passed thru these middlewares
 app.use(morgan("combined")); //middleware, logging framework
 app.use(bodyParser.json({ type: "*/*" })); //middleware
+app.use(cors(corsOptions));
 router(app);
 
 //Server Setup (connecting express to outside world)
